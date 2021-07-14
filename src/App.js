@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.css";
+import React, { Component } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import BookInput from "./components/BookInput";
+import BookTable from "./components/BookTable";
+
+export default class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            books: [],
+        };
+    }
+
+    onBookSubmitted(book) {
+        this.state.books.push(book);
+        this.setState({
+            books: this.state.books,
+        });
+    }
+
+    render() {
+        return (
+            <>
+                <div className="container">
+                    <div className="container">
+                        <h1 className="m-3 fs-1">Add Book:</h1>
+                        <BookInput
+                            createBook={(book) => this.onBookSubmitted(book)}
+                        />
+                        <BookTable books={this.state.books} />
+                    </div>
+                </div>
+            </>
+        );
+    }
 }
-
-export default App;
