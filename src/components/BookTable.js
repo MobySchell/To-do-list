@@ -20,7 +20,7 @@ export default class BookTable extends Component {
                                     <td>{book.author}</td>
                                     <td>{book.isbn}</td>
                                     <td>
-                                        <button className="border-0 bg-white text-info text-decoration-underline">
+                                        <button className="border-0 bg-white text-info text-decoration-underline" onClick={() => this.props.bookRemoved(book.id)}>
                                             X
                                         </button>
                                     </td>

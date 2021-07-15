@@ -8,16 +8,26 @@ export default class App extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            books: [],
-        };
+        const booksString = localStorage.getItem("books");
+
+        const books = JSON.parse(booksString ? booksString : "[]")
+
+        this.state = {books: books};
+    }
+
+    updateBooks(books) {
+        this.setState({books: books})
+        localStorage.setItem('books', JSON.stringify(books))
     }
 
     onBookSubmitted(book) {
         this.state.books.push(book);
-        this.setState({
-            books: this.state.books,
-        });
+        this.updateBooks(this.state.books);
+    }
+
+    onBookRemoved(bookId) {
+        const updatedBookArr = this.state.books.filter((book) => book.id !== bookId)
+        this.updateBooks(updatedBookArr)
     }
 
     render() {
@@ -29,7 +39,8 @@ export default class App extends Component {
                         <BookInput
                             createBook={(book) => this.onBookSubmitted(book)}
                         />
-                        <BookTable books={this.state.books} />
+                        <BookTable books={this.state.books} 
+                        bookRemoved={(bookId) => this.onBookRemoved(bookId)} />
                     </div>
                 </div>
             </>
